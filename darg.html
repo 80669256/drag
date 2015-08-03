@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>智能社--http://www.zhinengshe.com</title>
+    <style>
+        #div1{ width:100px; height:100px; background: red; position: absolute; left: 0; top:0;}
+    </style>
+    <script>
+        function Drag(){
+            this.oDiv=document.getElementById('div1');
+            this.disX=0;
+            this.disY=0;
+
+            var _this=this;
+            this.oDiv.onmousedown=function(ev){
+                var oEvent=ev || event;
+                _this.fnDown(oEvent);
+             
+            };
+        }
+        Drag.prototype.fnDown=function(oEvent){
+            this.disX=oEvent.clientX-this.oDiv.offsetLeft;
+            this.disY=oEvent.clientY-this.oDiv.offsetTop;
+
+            var _this=this;
+            document.onmousemove=function(ev){
+                var oEvent=ev || event;
+                _this.fnMove(oEvent);
+            };
+            document.onmouseup=function(){
+                _this.fnUp();
+            };
+            this.oDiv.setCapture && this.oDiv.setCapture();
+        };
+        Drag.prototype.fnMove=function(oEvent){
+            this.oDiv.style.left=oEvent.clientX-this.disX+'px';
+            this.oDiv.style.top=oEvent.clientY-this.disY+'px';
+        };
+        Drag.prototype.fnUp=function(){
+            document.onmousemove=null;
+            document.onmouseup=null;
+            this.oDiv.releaseCapture && this.oDiv.releaseCapture();
+        };
+        window.onload=function(){
+            new Drag();
+        };
+    </script>
+</head>
+<body>
+adsasdfasdfafds
+<div id="div1"></div>
+</body>
+</html>
